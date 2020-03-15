@@ -1,13 +1,13 @@
 import { TaskStatus } from '../task.model';
 import { IsIn, IsNotEmpty, IsOptional } from 'class-validator';
 
-export class FilterDto {
+export class GetTaskFilterDto {
   @IsOptional()
   @IsNotEmpty()
   search: string;
 
-  @IsNotEmpty()
-  @IsIn([TaskStatus.OPEN, TaskStatus.DONE,TaskStatus.IN_PROGRES])
+  @IsOptional()
+  @IsIn([TaskStatus.OPEN, TaskStatus.DONE,TaskStatus.IN_PROGRESS])
   status: TaskStatus;
 
 }

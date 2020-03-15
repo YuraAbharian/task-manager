@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, Val
 import { TasksService } from './tasks.service';
 import { Task, TaskStatus } from './task.model';
 import { CreateTaskDto } from './dto/task.dto';
-import { FilterDto } from './dto/get-tasks-filter.dto';
+import { GetTaskFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatusValidation } from '../pipes/task-mananger-valitation.pipe';
 
 @Controller('tasks')
@@ -11,7 +11,8 @@ export class TasksController {
   }
 
   @Get()
-  getTasks(@Query(ValidationPipe) filterDto: FilterDto): Task[] {
+  getTasks(@Query(ValidationPipe) filterDto: GetTaskFilterDto): Task[] {
+
     if (Object.keys(filterDto).length) {
       return this.tasksServices.searchTask(filterDto);
     } else {
