@@ -1,13 +1,13 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform } from '@nestjs/common';
-import { TaskStatus } from '../tasks/task.model';
+import { TaskStatus } from '../tasks/task-status.enam';
 
 
 export class TaskStatusValidation implements PipeTransform {
 
   readonly allowStatusValidation = [TaskStatus.DONE, TaskStatus.IN_PROGRESS, TaskStatus.OPEN];
 
-  transform(value: any, metadata: ArgumentMetadata){
-    console.log('metadata: ', metadata);
+  transform(value: any, ){
+    // console.log('metadata: ', metadata);
     value = value.toUpperCase();
       if(!this.isStatusValid(value)) {
         throw new BadRequestException(`'${value}' is invalid value`)
