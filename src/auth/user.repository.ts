@@ -15,7 +15,7 @@ export class UserRepository extends Repository<User> {
       const user = new User();
       user.username = username;
       user.salt = await bcrypt.genSalt();
-      user.password = await UserRepository.hashPassword(password, user.salt);
+      user.password = await this.hashPassword(password, user.salt);
       await user.save();
     } catch (e) {
       if (e.code === '23505') {
@@ -27,7 +27,7 @@ export class UserRepository extends Repository<User> {
 
   }
 
-  private static async hashPassword(password: string, salt: string): Promise<string> {
+  private async hashPassword(password: string, salt: string): Promise<string> {
     return await bcrypt.hash(password, salt);
   }
 }
