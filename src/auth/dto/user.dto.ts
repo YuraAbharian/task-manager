@@ -5,7 +5,7 @@ export class CreateUserDto{
     @MaxLength(20)
     @IsString()
     username: string;
-    @MinLength(4)
+    @MinLength(8)
     @MaxLength(20)
     @IsString()
     @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z)(?=.*[a-z]).*$/, { message: `Password is incorrect. Password must contain letters and numbers` })
