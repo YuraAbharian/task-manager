@@ -1,7 +1,7 @@
 import { Repository, EntityRepository } from 'typeorm';
 import {
   ConflictException,
-  InternalServerErrorException,
+  InternalServerErrorException, UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
@@ -33,7 +33,11 @@ export class UserRepository extends Repository<User> {
 
     const user = await this.findOne({ username });
     if (user) {
-      return await user.validateUserPassword(password);
+      const validPassword = await user.validateUserPassword(password);
+      if(!validPassword){
+        throw new UnauthorizedException('Password or Email is invalid');
+      }
+      return username
     } else {
       return null;
     }
