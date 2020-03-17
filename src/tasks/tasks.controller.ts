@@ -33,12 +33,11 @@ export class TasksController {
      @GetUser() user: User
   ): Promise<Task[]> {
     return await this.tasksServices.getAllTasks(filterDto, user);
-    // }
   }
 
   @Get('/:id')
-  getTaskById(@Param('id', ParseIntPipe) id: number): Promise<Task> {
-    return this.tasksServices.getTaskById(id);
+  getTaskById(@Param('id', ParseIntPipe) id: number,  @GetUser() user: User): Promise<Task> {
+    return this.tasksServices.getTaskById(id, user);
   }
 
   @Delete('/:id')
@@ -59,7 +58,8 @@ export class TasksController {
   async updateTaskStatus(
     @Param('id', ParseIntPipe) id: number,
     @Body('status', TaskStatusValidation) status: TaskStatus,
+    @GetUser()  user: User
   ): Promise<Task> {
-    return await this.tasksServices.updateTaskStatus(id, status);
+    return await this.tasksServices.updateTaskStatus(id, status,  user);
   }
 }
