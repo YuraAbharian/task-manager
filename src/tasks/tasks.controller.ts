@@ -30,8 +30,9 @@ export class TasksController {
   @Get()
   async getTasks(
     @Query(ValidationPipe) filterDto: GetTaskFilterDto,
+     @GetUser() user: User
   ): Promise<Task[]> {
-    return await this.tasksServices.getAllTasks(filterDto);
+    return await this.tasksServices.getAllTasks(filterDto, user);
     // }
   }
 
