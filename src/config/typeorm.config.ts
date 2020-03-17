@@ -10,5 +10,5 @@ export const TypeOrmConfig: TypeOrmModuleOptions = {
   password: 'postgres',
   database: 'taskmananger',
   entities: [Task, User],
-  synchronize: true
+  synchronize: true,
 };
