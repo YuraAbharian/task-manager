@@ -11,4 +11,8 @@ export class AuthController {
     async singUp(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<void>{
         return await this.authsService.singUp(createUserDto)
     }
+    @Post('sing-in')
+    async singIn(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<boolean>{
+        return await this.authsService.singIn(createUserDto)
+    }
 }

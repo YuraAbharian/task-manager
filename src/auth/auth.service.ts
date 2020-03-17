@@ -13,4 +13,7 @@ export class AuthService {
     async singUp(createUserDto: CreateUserDto): Promise<void>{
         return await this.userRepository.singUp(createUserDto)
     }
+    async singIn(createUserDto: CreateUserDto): Promise<boolean>{
+        return await this.userRepository.validateUserPassword(createUserDto)
+    }
 }
