@@ -1,28 +1,21 @@
-import { Injectable, NotFoundException, Param } from '@nestjs/common';
-import * as uuid from 'uuid/v1';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TaskStatus } from './task-status.enam';
 import { CreateTaskDto } from './dto/task.dto';
 import { GetTaskFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskRepository } from './task.repository';
 import { Task } from './task.entity';
-
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class TasksService {
+  constructor(private taskRepository: TaskRepository) {}
 
-  constructor(private taskRepository: TaskRepository) {
-  }
-
-
-
-
- async getAllTasks(filterDto: GetTaskFilterDto): Promise<Task[]> {
+  async getAllTasks(filterDto: GetTaskFilterDto): Promise<Task[]> {
     return await this.taskRepository.getTasks(filterDto);
   }
 
-
   async getTaskById(id: number): Promise<Task> {
-
     const found = await this.taskRepository.findOne(id);
 
     if (!found) {
@@ -31,28 +24,14 @@ export class TasksService {
     return found;
   }
 
-
-  // searchTask(query: GetTaskFilterDto): Task[] {
-  //   const { search, status } = query;
-  //   let tasks = this.getAllTasks();
-  //   if (status) {
-  //     tasks = this.tasks.filter(t => t.status === status);
-  //   }
-  //   if (search) {
-  //     tasks = this.tasks.filter(task => task.description.includes(search) || task.title.includes(search));
-  //   }
-  //
-  //   return tasks;
-  // }
-  //
-
-
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-    return await this.taskRepository.createTask(createTaskDto);
+  async createTask(
+    createTaskDto: CreateTaskDto,
+    @GetUser() user: User,
+  ): Promise<Task> {
+    return await this.taskRepository.createTask(createTaskDto, user);
   }
 
   async deleteTaskById(id: number): Promise<void> {
-
     const deletedTask = await this.taskRepository.delete(id);
     if (deletedTask.affected === 0) {
       throw new NotFoundException(`Task with current ID '${id}' is not found`);

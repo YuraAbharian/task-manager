@@ -1,8 +1,14 @@
-import { Controller, Body, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/user.dto';
 
 @Controller('auth')
+
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Post('sing-up')
@@ -18,6 +24,4 @@ export class AuthController {
   ): Promise<{ accessToken: string }> {
     return await this.authService.singIn(createUserDto);
   }
-
-
 }
